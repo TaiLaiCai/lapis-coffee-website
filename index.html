@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>蓝珀咖啡·旺咖工厂店｜乡村咖啡体验</title>
+    <meta name="description" content="蓝珀咖啡·旺咖工厂店，位于浙江绍兴富盛镇上旺村文化产业园。工厂参观、手冲课、拉花体验、乡村咖啡打卡与骑行自驾中转。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="蓝珀咖啡首页">
+        <img src="./assets/brand/logo-bean.png" alt="" />
+        <span>蓝珀咖啡</span>
+      </a>
+      <nav>
+        <a href="#weekly">周活动</a>
+        <a href="#booking">预约体验</a>
+        <a href="#route">乡村路线</a>
+        <a href="#shop">咖啡豆</a>
+      </nav>
+      <button class="nav-cta" data-scroll="#booking">预约到访</button>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">浙江绍兴 · 富盛镇上旺村</p>
+          <h1>去乡村里，喝一杯刚烘好的咖啡</h1>
+          <p class="hero-text">蓝珀咖啡·旺咖工厂店，把烘焙工厂、手冲课堂、拉花体验、乡村打卡路线放在同一个周末目的地里。</p>
+          <div class="hero-actions">
+            <button class="primary" data-scroll="#booking">选一个体验</button>
+            <button class="ghost" data-copy="sandlabs">复制主理人微信</button>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="本周门店准备看板">
+          <div class="bean-mark">LAPIS</div>
+          <h2>本周体验公告</h2>
+          <div class="notice-list" id="noticeList"></div>
+          <div class="prep-pill">
+            <span id="prepCount">0 人</span>
+            <small>预约后，门店提前 2 天备料</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="mood-strip" aria-label="选择到访方式">
+        <button class="mood active" data-mood="factory">想看工厂</button>
+        <button class="mood" data-mood="brew">想学手冲</button>
+        <button class="mood" data-mood="latte">想拍拉花</button>
+        <button class="mood" data-mood="route">骑行自驾路过</button>
+      </section>
+
+      <section class="section" id="weekly">
+        <div class="section-head">
+          <p class="eyebrow">WEEKLY LOOP</p>
+          <h2>一周七天，都有一个来村里的理由</h2>
+        </div>
+        <div class="week-grid" id="weekGrid"></div>
+      </section>
+
+      <section class="split section" id="booking">
+        <div>
+          <p class="eyebrow">BOOKING</p>
+          <h2>轻预约，重准备</h2>
+          <p class="section-text">预约的目的不是制造流程，而是让门店知道人数，提前准备牛奶、熟豆、杯测杯、打卡章卡和座位。你填完信息后，会自动生成一份可以发给主理人的备料清单。</p>
+          <div class="project-cards" id="projectCards"></div>
+        </div>
+        <form class="booking-card" id="bookingForm">
+          <label>
+            体验项目
+            <select id="projectSelect" name="project"></select>
+          </label>
+          <label>
+            到访人数
+            <input id="peopleInput" name="people" type="number" min="1" max="30" value="2" />
+          </label>
+          <label>
+            联系人
+            <input id="nameInput" name="name" placeholder="怎么称呼" required />
+          </label>
+          <label>
+            手机
+            <input id="phoneInput" name="phone" placeholder="用于确认" inputmode="tel" required />
+          </label>
+          <label>
+            备注
+            <input id="noteInput" name="note" placeholder="儿童/骑行/忌口/特殊需求" />
+          </label>
+          <div class="prep-box">
+            <strong>自动备料建议</strong>
+            <ul id="prepList"></ul>
+          </div>
+          <button class="primary full" type="submit">生成预约信息</button>
+          <p class="form-tip">提交后会复制报名文本，可直接发给主理人微信 sandlabs。</p>
+        </form>
+      </section>
+
+      <section class="section route" id="route">
+        <div class="section-head">
+          <p class="eyebrow">COUNTRY ROUTE</p>
+          <h2>把咖啡店做成一段路线的中转站</h2>
+        </div>
+        <div class="route-board">
+          <div class="route-map">
+            <span class="pin p1">村口</span>
+            <span class="pin p2">工厂</span>
+            <span class="pin p3">补给</span>
+            <span class="line l1"></span>
+            <span class="line l2"></span>
+          </div>
+          <div class="route-copy">
+            <h3>适合公路车、摩托、自驾和周末散步</h3>
+            <p>到旺咖工厂店补一杯冰美式，盖章，休息，再去村里走一圈。路线不用复杂，关键是让人觉得“来一趟很值得”。</p>
+            <div class="route-actions">
+              <button class="ghost" data-map>复制高德导航</button>
+              <button class="ghost" data-copy="sandlabs">约路线合作</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="shop">
+        <div class="section-head">
+          <p class="eyebrow">BEANS</p>
+          <h2>带一袋村里的咖啡回家</h2>
+        </div>
+        <div class="products" id="products"></div>
+      </section>
+
+      <section class="visit-card">
+        <div>
+          <p class="eyebrow">VISIT</p>
+          <h2>蓝珀咖啡·旺咖工厂店</h2>
+          <p>浙江省绍兴市越城区富盛镇上旺村文化产业园</p>
+          <p>主理人微信：sandlabs</p>
+        </div>
+        <div class="visit-actions">
+          <button class="primary" data-map>复制高德导航</button>
+          <button class="ghost" data-copy-address>复制地址</button>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
