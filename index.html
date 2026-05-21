@@ -3,88 +3,120 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>蓝珀咖啡·旺咖工厂店｜乡村咖啡体验</title>
-    <meta name="description" content="蓝珀咖啡·旺咖工厂店，位于浙江绍兴富盛镇上旺村文化产业园。工厂参观、手冲课、拉花体验、乡村咖啡打卡与骑行自驾中转。" />
+    <title>蓝珀咖啡·旺咖工厂店｜绍兴乡村咖啡创业故事</title>
+    <meta name="description" content="蓝珀咖啡·旺咖工厂店，位于浙江绍兴富盛镇上旺村文化产业园。以绍兴山水、乡村创业、工厂参观、咖啡体验和骑行自驾中转站为核心的乡村咖啡目的地。" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="蓝珀咖啡首页">
-        <img src="./assets/brand/logo-upload.png" alt="" />
+        <img src="./assets/brand/logo-upload.png" alt="蓝珀咖啡" />
         <span>蓝珀咖啡</span>
       </a>
-      <nav>
-        <a href="#dream">动图体验</a>
-        <a href="#weekly">周活动</a>
-        <a href="#booking">预约体验</a>
-        <a href="#route">乡村路线</a>
+      <nav aria-label="主导航">
+        <a href="#story">创业故事</a>
+        <a href="#shaoxing">绍兴元素</a>
+        <a href="#weekly">本周体验</a>
+        <a href="#route">村路线</a>
       </nav>
       <button class="nav-cta" data-scroll="#booking">预约到访</button>
     </header>
 
     <main id="top">
       <section class="hero">
+        <div class="hero-scene" aria-label="绍兴乡村咖啡动态场景">
+          <div class="water-line water-a"></div>
+          <div class="water-line water-b"></div>
+          <div class="hill hill-back"></div>
+          <div class="hill hill-front"></div>
+          <div class="moon-gate"></div>
+          <div class="wupeng-boat"><span></span></div>
+          <div class="coffee-house"><strong>旺咖</strong></div>
+          <div class="steam-cloud steam-a"></div>
+          <div class="steam-cloud steam-b"></div>
+          <div class="stone-path"></div>
+          <div class="scene-note">乌篷船的慢，青石板的稳，一杯冰美式的清醒</div>
+        </div>
         <div class="hero-copy">
           <p class="eyebrow">浙江绍兴 · 富盛镇上旺村</p>
-          <h1>去乡村里，喝一杯刚烘好的咖啡</h1>
-          <p class="hero-text">蓝珀咖啡·旺咖工厂店，把烘焙工厂、手冲课堂、拉花体验、乡村打卡路线放在同一个周末目的地里。</p>
+          <h1>把一间咖啡工厂，开成村里的周末目的地</h1>
+          <p class="hero-text">蓝珀咖啡·旺咖工厂店从上旺村出发，把绍兴的山水、村路、青石板和创业日常，做成一杯可到达、可停留、可带走的乡村咖啡体验。</p>
           <div class="hero-actions">
-            <button class="primary" data-scroll="#booking">选一个体验</button>
+            <button class="primary" data-scroll="#booking">选一次体验</button>
             <button class="ghost" data-copy="sandlabs">复制主理人微信</button>
           </div>
-        </div>
-        <div class="hero-card" aria-label="本周门店准备看板">
-          <div class="bean-mark">LAPIS</div>
-          <h2>本周体验公告</h2>
-          <div class="notice-list" id="noticeList"></div>
-          <div class="prep-pill">
-            <span id="prepCount">0 人</span>
-            <small>预约后，门店提前 2 天备料</small>
+          <div class="hero-facts" aria-label="门店亮点">
+            <span>工厂参观</span>
+            <span>手冲 / 拉花</span>
+            <span>骑行自驾补给</span>
           </div>
         </div>
       </section>
 
-      <section class="dream section" id="dream">
-        <div class="dream-copy">
-          <p class="eyebrow">A SLOW COFFEE DAY</p>
-          <h2>山野把时间放慢，咖啡把路途变甜</h2>
-          <p>沿着富盛镇的村路往上旺村走，风从树影里穿过，远处是起伏的山线，眼前是刚烘好的豆香。到旺咖工厂店补一杯冰美式，盖一枚章，坐下来把肩膀松开，再沿着村里慢慢走一圈。</p>
-          <p>这不是一条复杂路线，更像一段周末的小小出逃：有自然，有咖啡，有可以停靠的地方，也有把日常重新变轻的理由。</p>
+      <section class="notice-board" aria-label="本周体验公告">
+        <div>
+          <p class="eyebrow">THIS WEEK</p>
+          <h2>本周到村里，先补一杯冰美式</h2>
         </div>
-        <div class="motion-scene" aria-label="乡村咖啡路线动图">
-          <div class="sky-line sky-line-a"></div>
-          <div class="sky-line sky-line-b"></div>
-          <div class="sun"></div>
-          <div class="mountain mountain-back"></div>
-          <div class="mountain mountain-front"></div>
-          <div class="country-road"></div>
-          <div class="coffee-stop">
-            <div class="stop-roof"></div>
-            <div class="stop-body">旺咖</div>
-          </div>
-          <div class="cup">
-            <span class="steam s1"></span>
-            <span class="steam s2"></span>
-            <span class="steam s3"></span>
-          </div>
-          <div class="route-dot dot-a"></div>
-          <div class="route-dot dot-b"></div>
-          <div class="route-dot dot-c"></div>
-          <div class="scene-caption">冰美式 · 盖章 · 休息 · 村里走一圈</div>
+        <div class="notice-list" id="noticeList"></div>
+        <div class="prep-pill">
+          <span id="prepCount">0 人</span>
+          <small>预约后，门店提前 2 天准备豆子、牛奶、杯具和章卡</small>
         </div>
+      </section>
+
+      <section class="section story" id="story">
+        <div class="section-head narrow">
+          <p class="eyebrow">VILLAGE STARTUP</p>
+          <h2>乡村创业不是一句口号，是每天把门打开</h2>
+          <p>旺咖想做的不是“路过拍照就走”的店，而是一个能让年轻人、骑行的人、带孩子来的家庭、对咖啡好奇的新手，都愿意停半天的村里据点。</p>
+        </div>
+        <div class="story-grid">
+          <article class="story-card lead">
+            <span>01</span>
+            <h3>从一台烘焙机开始</h3>
+            <p>把生豆、烘焙、杯测、出杯放在同一个空间里，让客人看见一杯咖啡从哪里来，也让村里的闲置空间有了新的香气。</p>
+          </article>
+          <article class="story-card">
+            <span>02</span>
+            <h3>把上旺村做成可停靠的路线</h3>
+            <p>骑车、自驾、摩托都可以在这里补给：喝一杯、盖一章、歇一会儿，再去村里走一圈。</p>
+          </article>
+          <article class="story-card">
+            <span>03</span>
+            <h3>让体验变成日常运营</h3>
+            <p>每周固定开放工厂、手冲课、拉花课和社群杯测，预约人数会变成备料清单，少一点复杂，多一点踏实。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shaoxing" id="shaoxing">
+        <div class="shaoxing-copy">
+          <p class="eyebrow">SHAOXING TOUCH</p>
+          <h2>绍兴的慢，适合被咖啡重新讲一遍</h2>
+          <p>这里有会稽山的青绿、乌篷船的水声、老街青石板的温润，也有村里创业者的热气。蓝珀把这些绍兴元素收进体验里：不是做成景点，而是做成一天里的细节。</p>
+          <div class="culture-tags">
+            <button class="culture active" data-culture="mountain">会稽山风</button>
+            <button class="culture" data-culture="boat">乌篷船慢</button>
+            <button class="culture" data-culture="stone">青石板路</button>
+            <button class="culture" data-culture="wine">黄酒风物</button>
+          </div>
+        </div>
+        <div class="culture-panel" id="culturePanel"></div>
       </section>
 
       <section class="mood-strip" aria-label="选择到访方式">
-        <button class="mood active" data-mood="factory">想看工厂</button>
-        <button class="mood" data-mood="brew">想学手冲</button>
-        <button class="mood" data-mood="latte">想拍拉花</button>
-        <button class="mood" data-mood="route">骑行自驾路过</button>
+        <button class="mood active" data-mood="factory">看工厂</button>
+        <button class="mood" data-mood="brew">学手冲</button>
+        <button class="mood" data-mood="latte">拍拉花</button>
+        <button class="mood" data-mood="route">路过补给</button>
       </section>
 
       <section class="section" id="weekly">
         <div class="section-head">
-          <p class="eyebrow">WEEKLY LOOP</p>
-          <h2>一周七天，都有一个来村里的理由</h2>
+          <p class="eyebrow">DAYTIME LOOP</p>
+          <h2>白天活动循环：一周七天都有来村里的理由</h2>
+          <p>时间尽量放在白天，适合家庭、朋友小队、骑行自驾和临时起意的绍兴周末。</p>
         </div>
         <div class="week-grid" id="weekGrid"></div>
       </section>
@@ -92,8 +124,8 @@
       <section class="split section" id="booking">
         <div>
           <p class="eyebrow">BOOKING</p>
-          <h2>轻预约，重准备</h2>
-          <p class="section-text">预约的目的不是制造流程，而是让门店知道人数，提前准备牛奶、熟豆、杯测杯、打卡章卡和座位。你填完信息后，会自动生成一份可以发给主理人的备料清单。</p>
+          <h2>预约只是为了准备得更好</h2>
+          <p class="section-text">选择项目、人数和联系人，页面会自动生成可发给主理人的报名信息。门店提前两天知道人数，就能准备熟豆、牛奶、打卡章卡、杯测杯和体验席位。</p>
           <div class="project-cards" id="projectCards"></div>
         </div>
         <form class="booking-card" id="bookingForm">
@@ -122,14 +154,14 @@
             <ul id="prepList"></ul>
           </div>
           <button class="primary full" type="submit">生成预约信息</button>
-          <p class="form-tip">提交后会复制报名文本，可直接发给主理人微信 sandlabs。</p>
+          <p class="form-tip">生成后会复制报名文本，可直接发给主理人微信 sandlabs。</p>
         </form>
       </section>
 
       <section class="section route" id="route">
         <div class="section-head">
           <p class="eyebrow">COUNTRY ROUTE</p>
-          <h2>把咖啡店做成一段路线的中转站</h2>
+          <h2>咖啡店是一段路线的中转站</h2>
         </div>
         <div class="route-board">
           <div class="route-visual">
@@ -137,13 +169,13 @@
             <div class="route-stamp">旺咖补给章</div>
           </div>
           <div class="route-copy">
-            <h3>适合公路车、摩托、自驾和周末散步</h3>
-            <p>到旺咖工厂店补一杯冰美式，盖章，休息，再去村里走一圈。路线不用复杂，关键是让人觉得“来一趟很值得”。</p>
+            <h3>到旺咖补一杯冰美式，盖章，休息，再去村里走一圈</h3>
+            <p>路线不用复杂：从城市开到富盛镇，进上旺村文化产业园，停在旺咖工厂店。喝完咖啡，沿村路看山、看田、看风从树影里过去。关键是让人觉得，来一趟很值得。</p>
             <div class="route-steps">
               <span>01 冰美式补给</span>
-              <span>02 打卡盖章</span>
+              <span>02 盖章打卡</span>
               <span>03 工厂休息</span>
-              <span>04 村里走一圈</span>
+              <span>04 村里散步</span>
             </div>
             <div class="route-actions">
               <button class="ghost" data-map>复制高德导航</button>
@@ -155,7 +187,7 @@
 
       <section class="section" id="shop">
         <div class="section-head">
-          <p class="eyebrow">BEANS</p>
+          <p class="eyebrow">TAKE HOME</p>
           <h2>带一袋村里的咖啡回家</h2>
         </div>
         <div class="products" id="products"></div>

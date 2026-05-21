@@ -10,41 +10,64 @@ const projects = {
     label: "工厂参观",
     tag: "工厂",
     time: "周六 14:00-16:30",
-    desc: "烘焙演示、杯测、仓储参观，把一支豆从生豆讲到出杯。",
-    prep: (n) => [`迎宾饮品 ${n} 杯`, `杯测杯 ${n * 3} 只`, `体验熟豆约 ${n * 45}g`, `讲解席位 ${n} 个`],
+    desc: "看烘焙机、闻熟豆香、做一次杯测，把咖啡从生豆讲到出杯。",
+    prep: (n) => [`迎宾冰美式 ${n} 杯`, `杯测杯 ${n * 3} 只`, `体验熟豆约 ${n * 45}g`, `讲解席位 ${n} 个`],
   },
   brew: {
-    label: "手冲培训",
+    label: "手冲咖啡入门",
     tag: "手冲",
-    time: "周二 14:00",
-    desc: "研磨、水温、注水节奏，新手也能冲出一杯稳定的甜感。",
+    time: "周二 10:30 / 周五 14:30",
+    desc: "从研磨、水温、注水节奏开始，新手也能冲出一杯稳定的甜感。",
     prep: (n) => [`手冲豆约 ${n * 40}g`, `滤纸 ${n * 3} 张`, `分享杯 ${n * 2} 只`, `参数卡 ${n} 张`],
   },
   latte: {
-    label: "意式拉花",
+    label: "意式拉花体验",
     tag: "拉花",
-    time: "周三 14:30",
-    desc: "打奶泡、心形、郁金香，练两杯，带走一张好看的照片。",
+    time: "周三 14:30-16:00",
+    desc: "练奶泡、心形和郁金香，带走一张在绍兴村里拍的咖啡照片。",
     prep: (n) => [`牛奶约 ${n * 450}ml`, `意式浓缩豆约 ${n * 36}g`, `练习杯 ${n * 2} 杯`, `拉花缸 / 杯具 ${n} 套`],
   },
   route: {
-    label: "乡村打卡路线",
+    label: "村路补给打卡",
     tag: "路线",
     time: "周日 09:30-12:00",
-    desc: "适合公路车、摩托和自驾，工厂中转补给，再去村里打卡。",
+    desc: "适合公路车、摩托和自驾，工厂中转补给，再去上旺村走一圈。",
     prep: (n) => [`冰美式 / 补给饮品 ${n} 杯`, `饮用水 ${n} 瓶`, `打卡章卡 ${n} 张`, `停车 / 骑行停靠位 ${Math.ceil(n / 2)} 组`],
   },
 };
 
 const week = [
   ["周一", "咖啡知识入门", "10:30", "认识产区、处理法、风味轮", "factory"],
-  ["周二", "手冲咖啡培训", "14:00", "研磨、水温、注水节奏", "brew"],
+  ["周二", "手冲咖啡培训", "10:30", "研磨、水温、注水节奏", "brew"],
   ["周三", "意式拉花体验", "14:30", "打奶泡、心形、郁金香", "latte"],
-  ["周四", "手工体验课", "10:30", "挂耳包、香气瓶、咖啡渣手作", "factory"],
-  ["周五", "社群杯测小局", "15:00", "3 支豆盲喝，投票选下周豆单", "brew"],
+  ["周四", "绍兴风物手作", "10:30", "挂耳包、香气瓶、咖啡渣手作", "factory"],
+  ["周五", "社群杯测小局", "14:30", "3 支豆盲喝，投票选下周豆单", "brew"],
   ["周六", "工厂参观开放日", "14:00", "烘焙机演示、仓储参观、主理人答疑", "factory"],
-  ["周日", "乡村咖啡打卡", "09:30", "骑行、摩托、自驾中转补给", "route"],
+  ["周日", "村路补给打卡", "09:30", "骑行、摩托、自驾中转补给", "route"],
 ];
+
+const cultures = {
+  mountain: {
+    title: "会稽山风：适合深呼吸的第一口",
+    text: "山线不抢戏，只在远处把一天托住。适合做工厂参观的开场：先看豆子，再喝一口清爽的冰美式。",
+    items: ["山野冷萃", "工厂开放日", "村口合影点"],
+  },
+  boat: {
+    title: "乌篷船慢：把行程放轻一点",
+    text: "绍兴的慢不是无聊，是让人愿意停。旺咖把这种节奏变成休息位、盖章卡和一段不用赶路的村路。",
+    items: ["盖章休息", "慢行路线", "周末补给"],
+  },
+  stone: {
+    title: "青石板路：适合走一圈再回来",
+    text: "喝完咖啡，不急着走。沿着村里走一圈，看老墙、树影和田边风，再回来带一袋熟豆回家。",
+    items: ["村里散步", "手冲入门", "挂耳伴手礼"],
+  },
+  wine: {
+    title: "黄酒风物：给咖啡一点绍兴记忆",
+    text: "黄酒、梅干菜、老街和社戏，是绍兴人的味觉底色。咖啡不必模仿它们，但可以借它们讲出本地生活。",
+    items: ["风味杯测", "在地甜点", "主理人故事"],
+  },
+};
 
 const products = [
   {
@@ -75,6 +98,7 @@ const products = [
 
 const state = {
   selectedProject: "factory",
+  selectedCulture: "mountain",
   people: 2,
   bookings: JSON.parse(localStorage.getItem("lapisBookings") || "[]"),
 };
@@ -102,7 +126,7 @@ async function copyText(text, okText = "已复制") {
 function renderNotices() {
   const notices = [
     ["周六", "工厂开放日", "14:00-16:30", "factory", "预约"],
-    ["周日", "乡村咖啡打卡", "09:30-12:00", "route", "报名"],
+    ["周日", "村路补给打卡", "09:30-12:00", "route", "报名"],
     ["平日", "白天咖啡课", "10:30-15:30", "brew", "提醒"],
   ];
   $("#noticeList").innerHTML = notices.map(([type, title, time, project, action]) => `
@@ -140,6 +164,17 @@ function renderProjects() {
   $("#projectSelect").innerHTML = Object.entries(projects).map(([key, item]) => `
     <option value="${key}">${item.label} · ${item.time}</option>
   `).join("");
+}
+
+function renderCulture() {
+  const culture = cultures[state.selectedCulture];
+  $("#culturePanel").innerHTML = `
+    <div class="culture-art"><span>${culture.items[0]}</span></div>
+    <h3>${culture.title}</h3>
+    <p>${culture.text}</p>
+    <div class="mini-tags">${culture.items.map((item) => `<span>${item}</span>`).join("")}</div>
+  `;
+  document.querySelectorAll(".culture").forEach((btn) => btn.classList.toggle("active", btn.dataset.culture === state.selectedCulture));
 }
 
 function renderProducts() {
@@ -238,6 +273,13 @@ function bindEvents() {
       return;
     }
 
+    const culture = event.target.closest("[data-culture]");
+    if (culture) {
+      state.selectedCulture = culture.dataset.culture;
+      renderCulture();
+      return;
+    }
+
     if (event.target.closest("[data-copy]")) {
       copyText(event.target.closest("[data-copy]").dataset.copy, "主理人微信已复制");
       return;
@@ -262,5 +304,6 @@ renderNotices();
 renderProjects();
 renderProducts();
 renderWeek();
+renderCulture();
 bindEvents();
 selectProject(state.selectedProject);
