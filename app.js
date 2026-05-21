@@ -137,6 +137,21 @@ const stamps = {
 
 const storedPassport = JSON.parse(localStorage.getItem("lapisPassport") || "[]");
 
+const game = {
+  canvas: null,
+  ctx: null,
+  width: 900,
+  height: 620,
+  cupX: 450,
+  score: 0,
+  timeLeft: 30,
+  running: false,
+  lastTick: 0,
+  lastSpawn: 0,
+  objects: [],
+  keys: new Set(),
+};
+
 const state = {
   selectedProject: "factory",
   selectedCulture: "mountain",
@@ -165,6 +180,230 @@ async function copyText(text, okText = "已复制") {
   } catch (error) {
     showToast("浏览器不支持自动复制，请手动复制");
   }
+}
+
+function gameRank(score) {
+  if (score >= 260) return "村路冠军";
+  if (score >= 170) return "金杯手冲";
+  if (score >= 90) return "冰美式补给";
+  return "待开始";
+}
+
+function updateGameHud() {
+  $("#gameScore").textContent = game.score;
+  $("#gameTime").textContent = Math.max(0, Math.ceil(game.timeLeft));
+  $("#gameRank").textContent = gameRank(game.score);
+}
+
+function drawCup(ctx, x, y) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillStyle = "#fffdf8";
+  ctx.shadowColor = "rgba(0,0,0,0.28)";
+  ctx.shadowBlur = 18;
+  ctx.beginPath();
+  ctx.roundRect(-54, -22, 108, 54, 18);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = "#d99a3d";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(58, 2, 18, -Math.PI / 2, Math.PI / 2);
+  ctx.stroke();
+  ctx.fillStyle = "#203b34";
+  ctx.font = "900 18px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText("旺咖", 0, 12);
+  ctx.restore();
+}
+
+function drawBean(ctx, item) {
+  ctx.save();
+  ctx.translate(item.x, item.y);
+  ctx.rotate(item.rotation);
+  const gradient = ctx.createLinearGradient(-10, 0, 10, 0);
+  gradient.addColorStop(0, item.kind === "gold" ? "#f0bf55" : "#8a4d25");
+  gradient.addColorStop(0.48, item.kind === "gold" ? "#fff2b8" : "#2f241c");
+  gradient.addColorStop(0.52, item.kind === "gold" ? "#b87922" : "#b87333");
+  gradient.addColorStop(1, item.kind === "gold" ? "#d99a3d" : "#5f351e");
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, item.radius * 0.72, item.radius, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawDrop(ctx, item) {
+  ctx.save();
+  ctx.translate(item.x, item.y);
+  ctx.fillStyle = "#26342f";
+  ctx.beginPath();
+  ctx.moveTo(0, -item.radius);
+  ctx.bezierCurveTo(item.radius, -2, item.radius * 0.8, item.radius, 0, item.radius);
+  ctx.bezierCurveTo(-item.radius * 0.8, item.radius, -item.radius, -2, 0, -item.radius);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawGame() {
+  if (!game.ctx) return;
+  const ctx = game.ctx;
+  ctx.clearRect(0, 0, game.width, game.height);
+
+  const sky = ctx.createLinearGradient(0, 0, game.width, game.height);
+  sky.addColorStop(0, "#17231d");
+  sky.addColorStop(0.48, "#203b34");
+  sky.addColorStop(1, "#806238");
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, game.width, game.height);
+
+  ctx.fillStyle = "rgba(255,253,248,0.08)";
+  for (let i = 0; i < 32; i += 1) {
+    const x = (i * 97) % game.width;
+    const y = (i * 53) % (game.height * 0.55);
+    ctx.beginPath();
+    ctx.arc(x, y, (i % 3) + 1, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = "#4f744c";
+  ctx.beginPath();
+  ctx.moveTo(0, game.height * 0.68);
+  ctx.lineTo(game.width * 0.18, game.height * 0.42);
+  ctx.lineTo(game.width * 0.36, game.height * 0.63);
+  ctx.lineTo(game.width * 0.54, game.height * 0.35);
+  ctx.lineTo(game.width * 0.74, game.height * 0.65);
+  ctx.lineTo(game.width, game.height * 0.44);
+  ctx.lineTo(game.width, game.height);
+  ctx.lineTo(0, game.height);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(255,253,248,0.12)";
+  ctx.fillRect(0, game.height * 0.72, game.width, 3);
+  ctx.fillRect(0, game.height * 0.78, game.width, 2);
+
+  game.objects.forEach((item) => {
+    if (item.type === "drop") drawDrop(ctx, item);
+    else drawBean(ctx, item);
+  });
+
+  drawCup(ctx, game.cupX, game.height - 54);
+}
+
+function resizeGameCanvas() {
+  if (!game.canvas) return;
+  const rect = game.canvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  game.canvas.width = Math.floor(rect.width * dpr);
+  game.canvas.height = Math.floor(rect.height * dpr);
+  game.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  game.width = rect.width;
+  game.height = rect.height;
+  game.cupX = Math.min(Math.max(game.cupX, 58), game.width - 58);
+  drawGame();
+}
+
+function spawnGameObject() {
+  const roll = Math.random();
+  const type = roll > 0.78 ? "drop" : "bean";
+  game.objects.push({
+    type,
+    kind: roll < 0.12 ? "gold" : "normal",
+    x: 36 + Math.random() * (game.width - 72),
+    y: -30,
+    radius: type === "drop" ? 15 : 18,
+    speed: type === "drop" ? 230 + Math.random() * 90 : 160 + Math.random() * 110,
+    rotation: Math.random() * Math.PI,
+  });
+}
+
+function finishGame() {
+  game.running = false;
+  $("#gameOverlay").textContent = `${gameRank(game.score)} · ${game.score} 分`;
+  $("#gameOverlay").classList.add("show");
+  showToast(`挑战完成：${game.score} 分`);
+}
+
+function gameLoop(timestamp) {
+  if (!game.running) return;
+  const delta = Math.min((timestamp - game.lastTick) / 1000, 0.04);
+  game.lastTick = timestamp;
+  game.timeLeft -= delta;
+
+  if (game.keys.has("ArrowLeft")) game.cupX -= 360 * delta;
+  if (game.keys.has("ArrowRight")) game.cupX += 360 * delta;
+  game.cupX = Math.min(Math.max(game.cupX, 58), game.width - 58);
+
+  if (timestamp - game.lastSpawn > 520) {
+    spawnGameObject();
+    if (game.score > 120 && Math.random() > 0.45) spawnGameObject();
+    game.lastSpawn = timestamp;
+  }
+
+  const cupY = game.height - 54;
+  game.objects = game.objects.filter((item) => {
+    item.y += item.speed * delta;
+    item.rotation += delta * 1.8;
+    const caught = Math.abs(item.x - game.cupX) < 62 && Math.abs(item.y - cupY) < 42;
+    if (caught) {
+      if (item.type === "drop") {
+        game.score = Math.max(0, game.score - 18);
+      } else {
+        game.score += item.kind === "gold" ? 28 : 12;
+      }
+      return false;
+    }
+    return item.y < game.height + 40;
+  });
+
+  updateGameHud();
+  drawGame();
+
+  if (game.timeLeft <= 0) {
+    finishGame();
+    return;
+  }
+  requestAnimationFrame(gameLoop);
+}
+
+function startGame() {
+  game.score = 0;
+  game.timeLeft = 30;
+  game.objects = [];
+  game.running = true;
+  game.lastTick = performance.now();
+  game.lastSpawn = 0;
+  $("#gameOverlay").classList.remove("show");
+  updateGameHud();
+  requestAnimationFrame(gameLoop);
+}
+
+function setupGame() {
+  game.canvas = $("#coffeeGame");
+  if (!game.canvas) return;
+  game.ctx = game.canvas.getContext("2d");
+  game.cupX = game.width / 2;
+  resizeGameCanvas();
+  updateGameHud();
+  $("#gameOverlay").classList.add("show");
+
+  game.canvas.addEventListener("pointermove", (event) => {
+    const rect = game.canvas.getBoundingClientRect();
+    game.cupX = Math.min(Math.max(event.clientX - rect.left, 58), game.width - 58);
+    drawGame();
+  });
+  game.canvas.addEventListener("pointerdown", (event) => {
+    const rect = game.canvas.getBoundingClientRect();
+    game.cupX = Math.min(Math.max(event.clientX - rect.left, 58), game.width - 58);
+    if (!game.running) startGame();
+  });
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") game.keys.add(event.key);
+  });
+  window.addEventListener("keyup", (event) => game.keys.delete(event.key));
+  window.addEventListener("resize", resizeGameCanvas);
+  $("#startGame")?.addEventListener("click", startGame);
 }
 
 function renderNotices() {
@@ -418,5 +657,6 @@ renderCulture();
 renderNearby();
 renderScene();
 renderPassport();
+setupGame();
 bindEvents();
 selectProject(state.selectedProject);

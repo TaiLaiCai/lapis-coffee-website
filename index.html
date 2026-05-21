@@ -18,6 +18,7 @@
         <a href="#shaoxing">绍兴元素</a>
         <a href="#weekly">本周体验</a>
         <a href="#route">村路线</a>
+        <a href="#game">小游戏</a>
         <a href="#passport">体验护照</a>
         <a href="#nearby">周边配套</a>
       </nav>
@@ -194,6 +195,31 @@
               <button class="ghost" data-map>复制高德导航</button>
               <button class="ghost" data-copy="sandlabs">约路线合作</button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section game-section" id="game">
+        <div class="section-head">
+          <p class="eyebrow">FIELD GAME</p>
+          <h2>接住上旺村的咖啡豆，冲出一杯山野风味</h2>
+          <p>移动杯子接住金色咖啡豆，避开深色苦涩雨滴。30 秒内收集越多，越接近一杯“值得专程来”的乡村咖啡。</p>
+        </div>
+        <div class="game-stage">
+          <div class="game-copy">
+            <p class="eyebrow">HOW TO PLAY</p>
+            <h3>一只杯子，一条村路，一场 30 秒的小冒险</h3>
+            <p>电脑上可用鼠标或方向键，手机上直接滑动杯子。这个小游戏适合放在线下活动里做排队互动，也能延伸成“到店挑战分数换章卡”。</p>
+            <div class="game-stats">
+              <span>分数 <strong id="gameScore">0</strong></span>
+              <span>时间 <strong id="gameTime">30</strong>s</span>
+              <span>评级 <strong id="gameRank">待开始</strong></span>
+            </div>
+            <button class="primary" id="startGame" type="button">开始挑战</button>
+          </div>
+          <div class="game-canvas-wrap">
+            <canvas id="coffeeGame" width="900" height="620" aria-label="接咖啡豆小游戏"></canvas>
+            <div class="game-overlay" id="gameOverlay">点击开始，接住咖啡豆</div>
           </div>
         </div>
       </section>
