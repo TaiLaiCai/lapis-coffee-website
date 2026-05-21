@@ -69,6 +69,37 @@ const cultures = {
   },
 };
 
+const nearbyPlaces = {
+  tea: {
+    label: "富盛抹茶小镇 / 御茶村",
+    time: "适合咖啡后 1-2 小时",
+    mood: "茶园、抹茶、宋韵风物",
+    desc: "富盛有成熟的抹茶产业和茶园风景，适合把“咖啡工厂”接到“茶乡风物”：上午看茶园，下午回旺咖做杯测或手冲。",
+    tips: ["适合亲子和朋友拍照", "可做咖啡×抹茶联名活动", "建议出发前确认开放时间"],
+  },
+  village: {
+    label: "上旺村慢走",
+    time: "咖啡后 30-60 分钟",
+    mood: "村路、陈列馆、创业精神",
+    desc: "上旺村本身就有艰苦创业和乡村振兴的故事。喝完冰美式，沿村路走一圈，看村史、田边风和老物件，体验会更完整。",
+    tips: ["适合盖章路线", "适合主理人带走讲解", "下雨天也能做短路线"],
+  },
+  song: {
+    label: "宋六陵方向",
+    time: "适合半日延展",
+    mood: "宋韵、人文、茶山",
+    desc: "富盛一带有深厚宋韵文脉，宋六陵和茶山可以把“绍兴的历史感”接到咖啡体验里，适合做更安静的人文路线。",
+    tips: ["适合自驾串联", "适合做宋韵咖啡主题", "建议选择白天出行"],
+  },
+  ride: {
+    label: "村路骑行 / 摩托中转",
+    time: "周日 09:30 更适合",
+    mood: "补水、盖章、休息",
+    desc: "旺咖可以做路线中转站：补一杯冰美式，补水，盖章，停靠休息，再继续往茶园、山线或村路走。",
+    tips: ["准备饮用水和停车位", "可做骑行章卡", "适合小队预约"],
+  },
+};
+
 const products = [
   {
     name: "精品 SOE 意式烘焙豆",
@@ -99,6 +130,7 @@ const products = [
 const state = {
   selectedProject: "factory",
   selectedCulture: "mountain",
+  selectedNearby: "tea",
   people: 2,
   bookings: JSON.parse(localStorage.getItem("lapisBookings") || "[]"),
 };
@@ -175,6 +207,21 @@ function renderCulture() {
     <div class="mini-tags">${culture.items.map((item) => `<span>${item}</span>`).join("")}</div>
   `;
   document.querySelectorAll(".culture").forEach((btn) => btn.classList.toggle("active", btn.dataset.culture === state.selectedCulture));
+}
+
+function renderNearby() {
+  const place = nearbyPlaces[state.selectedNearby];
+  $("#nearbyTabs").innerHTML = Object.entries(nearbyPlaces).map(([key, item]) => `
+    <button class="nearby-tab ${key === state.selectedNearby ? "active" : ""}" data-nearby="${key}">${item.label}</button>
+  `).join("");
+  $("#nearbyDetail").innerHTML = `
+    <p class="eyebrow">${place.time}</p>
+    <h3>${place.label}</h3>
+    <strong>${place.mood}</strong>
+    <p>${place.desc}</p>
+    <ul>${place.tips.map((tip) => `<li>${tip}</li>`).join("")}</ul>
+  `;
+  document.querySelectorAll(".map-pin").forEach((pin) => pin.classList.toggle("active", pin.dataset.nearby === state.selectedNearby));
 }
 
 function renderProducts() {
@@ -280,6 +327,13 @@ function bindEvents() {
       return;
     }
 
+    const nearby = event.target.closest("[data-nearby]");
+    if (nearby) {
+      state.selectedNearby = nearby.dataset.nearby;
+      renderNearby();
+      return;
+    }
+
     if (event.target.closest("[data-copy]")) {
       copyText(event.target.closest("[data-copy]").dataset.copy, "主理人微信已复制");
       return;
@@ -305,5 +359,6 @@ renderProjects();
 renderProducts();
 renderWeek();
 renderCulture();
+renderNearby();
 bindEvents();
 selectProject(state.selectedProject);
