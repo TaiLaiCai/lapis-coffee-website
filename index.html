@@ -18,6 +18,7 @@
         <a href="#shaoxing">绍兴元素</a>
         <a href="#weekly">本周体验</a>
         <a href="#route">村路线</a>
+        <a href="#passport">体验护照</a>
         <a href="#nearby">周边配套</a>
       </nav>
       <button class="nav-cta" data-scroll="#booking">预约到访</button>
@@ -25,7 +26,10 @@
 
     <main id="top">
       <section class="hero">
-        <div class="hero-scene" aria-label="绍兴乡村咖啡动态场景">
+        <div class="hero-scene scene-morning" id="heroScene" aria-label="绍兴乡村咖啡动态场景">
+          <div class="film-grain"></div>
+          <div class="light-beam beam-a"></div>
+          <div class="light-beam beam-b"></div>
           <div class="water-line water-a"></div>
           <div class="water-line water-b"></div>
           <div class="hill hill-back"></div>
@@ -35,8 +39,11 @@
           <div class="coffee-house"><strong>旺咖</strong></div>
           <div class="steam-cloud steam-a"></div>
           <div class="steam-cloud steam-b"></div>
+          <div class="floating-bean bean-a"></div>
+          <div class="floating-bean bean-b"></div>
+          <div class="floating-bean bean-c"></div>
           <div class="stone-path"></div>
-          <div class="scene-note">乌篷船的慢，青石板的稳，一杯冰美式的清醒</div>
+          <div class="scene-note" id="sceneNote">乌篷船的慢，青石板的稳，一杯冰美式的清醒</div>
         </div>
         <div class="hero-copy">
           <p class="eyebrow">浙江绍兴 · 富盛镇上旺村</p>
@@ -45,6 +52,11 @@
           <div class="hero-actions">
             <button class="primary" data-scroll="#booking">选一次体验</button>
             <button class="ghost" data-copy="sandlabs">复制主理人微信</button>
+          </div>
+          <div class="scene-switcher" aria-label="切换乡村体验氛围">
+            <button class="scene-chip active" data-scene="morning">清晨进村</button>
+            <button class="scene-chip" data-scene="road">公路补给</button>
+            <button class="scene-chip" data-scene="dusk">傍晚回城</button>
           </div>
           <div class="hero-facts" aria-label="门店亮点">
             <span>工厂参观</span>
@@ -186,6 +198,32 @@
         </div>
       </section>
 
+      <section class="section passport" id="passport">
+        <div class="section-head">
+          <p class="eyebrow">VILLAGE PASSPORT</p>
+          <h2>来一趟，盖一套属于上旺村的章</h2>
+          <p>把“喝咖啡”变成一段可以完成的任务：补给、看工厂、村里走一圈、路线合作。每点一下就是一枚电子章，也可以作为线下章卡玩法的雏形。</p>
+        </div>
+        <div class="passport-stage">
+          <div class="passport-book">
+            <div class="passport-cover">
+              <span>蓝珀乡村咖啡护照</span>
+              <strong id="passportProgress">0 / 4</strong>
+            </div>
+            <div class="stamp-grid" id="stampGrid"></div>
+          </div>
+          <div class="passport-copy">
+            <p class="eyebrow">MAKE IT PLAYFUL</p>
+            <h3 id="passportTitle">先从一杯冰美式开始</h3>
+            <p id="passportText">到店先补给，再慢慢选择今天要完成哪几枚章。这个玩法适合做小红书打卡、骑行社群合作，也适合周末亲子任务卡。</p>
+            <div class="passport-actions">
+              <button class="primary" data-scroll="#booking">预约拿实体章卡</button>
+              <button class="ghost" data-reset-passport>重置电子章</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section nearby" id="nearby">
         <div class="section-head">
           <p class="eyebrow">AROUND WANGKA</p>
@@ -226,14 +264,6 @@
             <p>拉花体验 → 咖啡渣手作 → 上旺精神陈列馆 → 村里拍照，节奏慢一点。</p>
           </article>
         </div>
-      </section>
-
-      <section class="section" id="shop">
-        <div class="section-head">
-          <p class="eyebrow">TAKE HOME</p>
-          <h2>带一袋村里的咖啡回家</h2>
-        </div>
-        <div class="products" id="products"></div>
       </section>
 
       <section class="visit-card">

@@ -100,37 +100,49 @@ const nearbyPlaces = {
   },
 };
 
-const products = [
-  {
-    name: "精品 SOE 意式烘焙豆",
-    notes: "深烘 · 坚果 · 奶油 · 醇厚",
-    price: "¥155",
-    image: "./assets/products/lapis-soe-italian-454.png",
+const scenes = {
+  morning: {
+    note: "雾气从山边升起，第一杯冰美式把周末叫醒",
   },
-  {
-    name: "蓝山风味挂耳咖啡",
-    notes: "中烘 · 莓果 · 杏仁 · 焦糖",
-    price: "¥78",
-    image: "./assets/products/lapis-blue-mountain-drip.png",
+  road: {
+    note: "车停在工厂门口，补水、盖章、继续往茶园方向走",
   },
-  {
-    name: "蓝珀红日焙炒 AAA 咖啡豆",
-    notes: "中烘 · 菠萝蜜 · 莓果 · 红酒",
-    price: "¥118",
-    image: "./assets/products/lapis-redsun-aaa-227.png",
+  dusk: {
+    note: "带着咖啡香和村路的风，慢慢回到绍兴城里",
   },
-  {
-    name: "HOLOHOLO 联名植绒礼盒",
-    notes: "8袋挂耳 · 精美水杯 · 礼赠",
-    price: "¥356",
-    image: "./assets/products/lapis-holoholo-gift.png",
+};
+
+const stamps = {
+  coffee: {
+    label: "冰美式补给",
+    title: "第一枚章：补一杯清醒",
+    text: "到旺咖先点一杯冰美式，坐下来十分钟，行程就从赶路变成停留。",
   },
-];
+  factory: {
+    label: "工厂参观",
+    title: "第二枚章：看见咖啡从哪里来",
+    text: "看烘焙机、闻熟豆香、做一次杯测，咖啡会从饮品变成有来处的故事。",
+  },
+  village: {
+    label: "村里走一圈",
+    title: "第三枚章：把上旺村走进记忆里",
+    text: "沿着村路慢慢走，看山线、田边风和老物件，别急着赶下一站。",
+  },
+  route: {
+    label: "路线合作",
+    title: "第四枚章：把旺咖变成中转站",
+    text: "适合骑行、摩托、自驾小队，把补给、盖章和村游串成固定路线。",
+  },
+};
+
+const storedPassport = JSON.parse(localStorage.getItem("lapisPassport") || "[]");
 
 const state = {
   selectedProject: "factory",
   selectedCulture: "mountain",
   selectedNearby: "tea",
+  selectedScene: "morning",
+  passport: Array.isArray(storedPassport) ? storedPassport : [],
   people: 2,
   bookings: JSON.parse(localStorage.getItem("lapisBookings") || "[]"),
 };
@@ -224,17 +236,33 @@ function renderNearby() {
   document.querySelectorAll(".map-pin").forEach((pin) => pin.classList.toggle("active", pin.dataset.nearby === state.selectedNearby));
 }
 
-function renderProducts() {
-  $("#products").innerHTML = products.map((item) => `
-    <article class="product">
-      <div class="product-img"><img src="${item.image}" alt="${item.name}" /></div>
-      <div class="product-body">
-        <strong>${item.name}</strong>
-        <p>${item.notes}</p>
-        <div class="price">${item.price}</div>
-      </div>
-    </article>
-  `).join("");
+function renderScene() {
+  const scene = scenes[state.selectedScene];
+  $("#heroScene").className = `hero-scene scene-${state.selectedScene}`;
+  $("#sceneNote").textContent = scene.note;
+  document.querySelectorAll(".scene-chip").forEach((btn) => btn.classList.toggle("active", btn.dataset.scene === state.selectedScene));
+}
+
+function renderPassport() {
+  const completed = state.passport.length;
+  $("#passportProgress").textContent = `${completed} / ${Object.keys(stamps).length}`;
+  $("#stampGrid").innerHTML = Object.entries(stamps).map(([key, stamp]) => {
+    const active = state.passport.includes(key);
+    return `
+      <button class="stamp-card ${active ? "stamped" : ""}" data-stamp="${key}">
+        <span>${active ? "已盖章" : "待完成"}</span>
+        <strong>${stamp.label}</strong>
+      </button>
+    `;
+  }).join("");
+
+  const latestKey = state.passport[state.passport.length - 1] || "coffee";
+  const latest = stamps[latestKey];
+  const done = completed === Object.keys(stamps).length;
+  $("#passportTitle").textContent = done ? "四枚章集齐，可以发起一条社群路线了" : latest.title;
+  $("#passportText").textContent = done
+    ? "这套玩法已经具备线下落地的样子：章卡、补给、路线合作、活动报名都能串起来。"
+    : latest.text;
 }
 
 function updatePrep() {
@@ -334,6 +362,35 @@ function bindEvents() {
       return;
     }
 
+    const scene = event.target.closest("[data-scene]");
+    if (scene) {
+      state.selectedScene = scene.dataset.scene;
+      renderScene();
+      return;
+    }
+
+    const stamp = event.target.closest("[data-stamp]");
+    if (stamp) {
+      const key = stamp.dataset.stamp;
+      if (!state.passport.includes(key)) {
+        state.passport.push(key);
+        localStorage.setItem("lapisPassport", JSON.stringify(state.passport));
+        showToast("电子章已盖上");
+      } else {
+        showToast("这枚章已经有啦");
+      }
+      renderPassport();
+      return;
+    }
+
+    if (event.target.closest("[data-reset-passport]")) {
+      state.passport = [];
+      localStorage.setItem("lapisPassport", JSON.stringify(state.passport));
+      renderPassport();
+      showToast("电子章已重置");
+      return;
+    }
+
     if (event.target.closest("[data-copy]")) {
       copyText(event.target.closest("[data-copy]").dataset.copy, "主理人微信已复制");
       return;
@@ -356,9 +413,10 @@ function bindEvents() {
 
 renderNotices();
 renderProjects();
-renderProducts();
 renderWeek();
 renderCulture();
 renderNearby();
+renderScene();
+renderPassport();
 bindEvents();
 selectProject(state.selectedProject);
